@@ -1,0 +1,101 @@
+/*
+ * elves are running low on ribbon
+ *
+ * ribbon is all the same width
+ *
+ * only worry about length they need to order
+ *
+ * ribbon required is the shortest distance around its sides
+ *
+ * or the smallest permeter of any one face.
+ *
+ * each present requires a bow made out of ribbon as well; the feet of the ribbon required for the perfect bow is equal to the cubic
+ * feet of volume of the present
+ *
+ * 2x3x4 = 2 + 2 + 3 + 3 = 10 + (2 * 3 * 4) = 24 for bnow
+
+ * */
+
+#include "stdio.h"
+#include "stdlib.h"
+
+#define FILENAME "input.txt"
+
+void get_two_smallest(int l, int w, int h, int *out) {
+    int min0 = l;
+    int min1 = w;
+    if(min1 < min0) {
+        int tmp = min0;
+        min0 = min1;
+        min1 = tmp;
+    }
+
+    if(h < min0) {
+        int tmp = min0;
+        min0 = h;
+        min1 = tmp;
+    } else if(h < min1) {
+        int tmp = min1;
+        min1 = h;
+    }
+    out[0] = min0;
+    out[1] = min1;
+}
+
+int get_volume(int len, int width, int height) {
+    return len * width * height;
+}
+
+int get_perimeter(int s0, int s1) {
+    return 2 * (s0 + s1);
+}
+
+
+
+
+int calculate_output(int len, int width, int height) {
+    int two_smallest[2];
+    get_two_smallest(len, width, height, &two_smallest);
+    
+    int a = get_perimeter(two_smallest[0], two_smallest[1]);
+    int b = get_volume(len, width, height);
+
+    return a + b;
+
+}
+
+int main() {
+
+    FILE *fp = fopen(FILENAME, "r");
+    if(fp == NULL) {
+        printf("something went wrong with reading file.\n");
+        return EXIT_FAILURE;
+    }
+
+    int len;
+    int width;
+    int height;
+    int output = 0;
+    while(fscanf(fp,"%dx%dx%d\n", &len, &width, &height) == 3) {
+        output += calculate_output(len, width, height);
+    }
+    printf("%d\n", output);
+
+
+
+
+
+    
+    fclose(fp);
+    return EXIT_SUCCESS;
+}
+
+/*
+ * 
+ * notes:
+ *
+ * arrays are not first class in C, so it is common to pass a pointer and modify the pointer rather than returning a list
+ * 
+ *
+ *
+ * */
