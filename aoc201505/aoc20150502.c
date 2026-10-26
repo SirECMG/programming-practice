@@ -66,35 +66,14 @@ int main() {
 }
 
 /*
- * day 5:
- *
- * naughty or nice
- *
- * nice string
- *
- * - it contains at least three vowels
- *      - aeiou
- *      - aei
- *      - xazegov
- *      - aeiouaeiouaeiou
- * - it contains at least one letter that appears twice in a row, like xx, abcdde (dd)
- *   - or aabbccdd (aa, bb, cc, or dd)
- * - it does not contain the strings ab, cd, pq, or xy, even if they are part of one or the other requirements
- *
- * 
- * */
-
-
-
-
-/*
  *
  * observations:
  *
- * - there are 3 conditions
- * - i think we can do this in 1 pass...
- *   - we can check all 3 conditions while traversing string
- *   - these 3 conditions can have flags
+ * - i saw that we needed a map
+ * - it was tricky to use two dimensional array and making decision to use current
+ *   index
+ * - for the second condition it was pretty straight forward, but knowing when to check     i offset from the end of the array...
+ *
  *
  * 
  * */
