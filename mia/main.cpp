@@ -1,0 +1,202 @@
+/*
+ * mia
+ *
+ * output:
+ *
+ * for each test case, output which player won, or whether there was a tie,
+ * using exactly the format shown below
+ *
+ *
+ * input:
+ *
+ * multiple, distinct test cases.
+ *
+ * Each test case contains on a single line four integers s0, s1, r0, r1
+ * where s0 s1 represent dice rolled by player 1
+ * where r0 r1 represents the dice rolled by player 2.
+ *
+ *
+ * the input will be terminated by a line containing 4 zeros.
+ *
+ *
+ * Sample 1:
+ *
+ * Player 1 wins.
+ * Player 2 wins.
+ * Player 1 wins.
+ * Player 2 wins.
+ * Tie.
+ *
+ *
+ * notes and observations
+ *
+ * - 1 line has exactly 4 integers separated by white spaces
+ * - terminating condition if all 4 integers are all zero
+ * - first two integer player 1
+ * - last 2 integers player 2
+ *
+ 
+ *
+ * mia rules:
+ *
+ * 1. (12 or 21) is always highest
+ * 2. doubles (11, 22, and so on), ties are broken by value, with 66 bein highest
+ * 3. all remaining rolls are sorted such that the highest number comes first, which results in a two-digit number. The value of the roll is the value of that number.
+ *
+ * e.g. 3 and 4 becomes 43
+ *
+ *
+ * mini problems:
+ *
+ * - i will need to create an integer using the larger of the pairs.
+ * - i will need to parse code.
+ *      - i can use std::cin to compare those numbers
+ *
+ * - if else statement with 3 main ifs
+ *
+ *   - if 1 2 or 2 1 
+ *   - if doubles
+ *   - rule 3
+ *   - if 0 0 0 0 exit
+ *
+ * - get_rule(a,b)
+ *      if (a == 1 && b == 2) || (a == 2 && b == 1)
+ *          return 1
+ *      else if a == b
+ *          return 2
+ *      else
+ *          return 3
+ *
+ * - create value(a,b)
+ *      output = 0
+ *      if a >= b
+ *          output = (a * 10) + b
+ *      else
+ *          output = (b * 10) + a
+ *
+ *   if(s0 == 0 && s1 == 0 && s2 == 0 && s3 == 0)
+ *      exit
+ * 
+ * - p1_output = get_rule(s0, s1)
+ * - p2_output = get_rule(s2, s3)
+ *
+*    if(p1_output == 1 || p2_output == 1)
+    *    if p1_output == p2_output return tie
+    *    else if p1 == 1
+    *       Player 1 wins
+    *    else if p2 == 1
+    *       Plaer 2 wins
+    *else if p1_output == 2 || p2_output == 2
+        if p1_output == 2
+            Player 1 wins
+        else if p2_output == 2
+            Player 2 wins
+        else
+            if s0 > s2
+                Player 1 wins
+            else
+                Player 2 wins
+          
+     else
+        player_1_val = create(s0,s1)
+        player_2_val = create(s2,s3)Q
+        if player_1_val == player_2_val
+            return tie
+        else if player_1_val > player_2_val
+            Player 1 wins.
+        else
+            Player 2 wins.
+            
+
+ *
+ * */
+
+#include <iostream>
+
+int create_val(int a, int b) {
+    int output = 0;
+
+    if (a >= b) {
+        output = (a * 10) + b;
+    } else {
+        output = (b * 10) + a;
+    }
+    return output;
+}
+
+
+int get_rule(int a, int b) {
+    if ((a == 1 && b == 2) || (a == 2 && b == 1)) {
+        return 1;
+    } else if (a == b) {
+        return 2;
+    } else {
+        return 3;
+    }
+}
+
+void print_winner(int p1_rule, int p2_rule, int s0, int s1, int s2, int s3) {
+    if (p1_rule == 1 || p2_rule == 1) {
+        if (p1_rule == p2_rule) {
+            std::cout << "Tie.\n";
+        } else if(p1_rule == 1) {
+            std::cout << "Player 1 wins.\n";
+        } else if(p2_rule == 1) {
+            std::cout << "Player 2 wins.\n";
+        }
+    } else if (p1_rule == 2 || p2_rule == 2) {
+        if(p1_rule == 2 && p2_rule == 2) {
+            if(s0 > s2) {
+                std::cout << "Player 1 wins.\n";
+            } else if(s2 > s0) {
+                std::cout << "Player 2 wins.\n";
+            } else {
+                std::cout << "Tie.\n";
+            }
+        } else if(p1_rule == 2) {
+            std::cout << "Player 1 wins.\n";
+        } else if(p2_rule == 2) {
+            std::cout << "Player 2 wins.\n";
+        }
+    } else {
+        int player_1_val = create_val(s0,s1);
+        int player_2_val = create_val(s2,s3);
+
+        if (player_1_val > player_2_val) {
+                std::cout << "Player 1 wins.\n";
+        } else if (player_2_val > player_1_val) {
+                std::cout << "Player 2 wins.\n";
+        } else {
+            std::cout << "Tie.\n";
+        }
+    }
+}
+
+int main() {
+    int s0,s1,s2,s3;
+
+    while(std::cin >> s0 >> s1 >> s2 >> s3) {
+
+        if (s0 == 0 && s1 == 0 && s2 == 0 && s3 == 0) {
+            return 0;
+        }
+
+        int p1_rule = get_rule(s0, s1);
+        int p2_rule = get_rule(s2, s3);
+
+        print_winner(p1_rule, p2_rule, s0, s1, s2, s3);
+    }
+    return 0;
+}
+
+
+/*  reflection:
+ *
+ *  I was able to solve this no problem within 45 minutes..
+ *
+ *  but there was some logic bugs I needed to overcome, i needed to double check
+ *  the if statements and run through some examples.
+ *
+ * */
+
+
