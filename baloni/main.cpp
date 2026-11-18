@@ -1,0 +1,228 @@
+/*
+ *  baloni
+ *
+ *
+ *  output:
+ *
+ *  the first and only line of output must contain the minimal number of times Pero needs to 
+ *  shoot an array so that all balloons are popped.
+ *
+ *
+ *  input:
+ *
+ *  the first line of the input contains the integer N (1 <= N <= 1000000)
+ *  the second line of the input contains an array of N integers Hi.
+ *
+ *  Each integer Hi (1<= Hi <= 1000000) is the height at which the ith baloom floats,
+ *  respectuvely from left to right
+ *
+ *  N
+ *  [ 1 2 3 4 5 6 7]
+ *
+ *
+ *  details:
+ *
+ *  There are N balloons floating in the air in a large room, lined up from left to right.
+ *  He shoots an array from left to right side of the room from an arbitrary height he chooses.
+ *
+ *  The array moves from left to right at a chosen height H until it finds a balloon.
+ *  The moment when an array touches a balloon, the balloon pops and disappears and the array continues its way from left to right at a height decreased by 1.
+ *
+ *  Therefore, if the arrow was moving at height H after the popping the balloon it travels onb height H - 1.
+ *
+ *  Our hero's goal is to pop all the balloons using as few arrays as possible.
+ *
+ *  notes/observations:
+ *
+ *  - we need a counter to keep track of arrows used
+ *  - need to compare arrow height with balloon height
+ *  - do we need to provision arrows in a loop?
+ *  - arrows can only go downwards, so ideally we would like to shoot the arrow at a higher place (to get rid of more balloons)
+
+ *
+ *
+ *  - at what height do we need to shoot the arrow?
+ *  - we need to find the minimal number of times Pero needs to shoot an arrow.
+ *  
+ *  Example 0:
+ *  1
+ *  10
+ *
+ *  we would need 1 arrow to shoot at height 10.
+ *
+ *  1
+ *  10 1
+ *
+ *  we would need to start at height 10 (then it would never decrease)
+ *  then
+ *  we would nee to shoot an arrow at 1
+ *  2 arrows.
+ *
+ *
+ *  example 2
+ *
+ *  5
+ *  2 1 5 4 3
+ *
+ *  answer: 2
+ *
+ *  starting with first location ( this is the only knowledge we have so far). we shoot an arrow. at height 2.
+ *
+ *  arrow = 1
+*   arrow_height -= 1;
+*
+*   arrow_height = 1 // hits 1
+*
+*   arrow_height = 0
+*
+*   arrow_height = 5 // shoot
+*
+*   arrow += 1
+*   arrow_height = 4
+*   
+*
+*   arrow = 2
+*   arrow_height = 3 // done
+*
+*   return 2
+*
+*
+*   will it help to find the maximum height? best eliminate more balloons?
+*
+*
+*   5
+*   2 1 5 4 3
+*
+*   arrow = 0
+
+*   i = 0
+*   arrow_cur_height = h[i]
+*   while i < n
+*       j = i + 1
+*       while j < n
+*         next_balloon = h[j]
+*         if next_balloon == arrow_cur_height
+*           arrow_cur_height -= 1
+*
+*       arrow += 1
+*
+*
+*   I think we need to keep track whether or not an arrow was shot down
+*
+*
+*   2 100 5 4 1
+*
+*   1 100 5 (3 arrows)
+    *
+    *
+    *   revised algorithm
+    *
+   capture n
+
+   arrows_used = 0
+   i = 0
+   while i < n
+     j = i + 1
+     cur_arrow_height = h[i];
+     if(cur_arrow_height < 1) continue;
+     arrows_used += 1
+     while j < n
+       next_balloon = h[j] // value indexes are 1 to 1000000
+       if next_balloon < 1
+          continue;
+       else if next_balloon == arrow_cur_height
+          arrow_cur_height -= 1
+          h[j] = -1
+       j++
+   i++
+  
+ *  
+ *
+ *
+ *  example
+ *
+ *  5
+ *  4 5 2 1 4
+ *  i      n-1
+ *   j 
+ *
+ *  arrows_used = 1
+ *
+ *  revised algorithm
+ *
+ *  arrow_tracking = [ [
+
+
+     4 = 1
+     5 = 1
+     2 = 1
+     1 = 1
+
+
+
+ ]
+ *
+ *  5
+ *  4 5 2 1 4
+ *
+ *  cur_height = 1
+ *  lookup = current_height + 1
+ *  if(arrow_tracking[lookup] = 1) {
+     *  arrow_tracking[lookup] = 1
+         *  } else {
+             *  arrows_used += 1
+                 *  }
+ *
+ *
+ *
+ * vector should represent how many arrows are currently traveling at that height.
+ *
+ *
+ *
+ * */
+
+
+#include <iostream>
+#include <vector>
+
+int main() {
+
+
+    int arrows_used = 0;
+
+    std::vector<int> v(1000001, 0);
+    
+    int n;
+    std::cin >> n;
+
+    int i = 0;
+    while ( i < n ) {
+
+        int cur_height;
+        std::cin >> cur_height;
+
+        if(v[cur_height] == 0) {
+            arrows_used++;
+            v[cur_height - 1]++;
+        } else {
+            v[cur_height]--;
+            v[cur_height - 1]++;
+        }
+        ++i;
+    }
+
+    std::cout <<  arrows_used << "\n";
+
+
+    return 0;
+}
+
+/*
+ *
+ *  reflection:
+ *
+ *  i was able to discover the brute force way,
+ *  and i was able to discover that we needed a lookup table for the heights.
+ *
+ *  once i discovered that the problem became much easier to solve.
+ * */
