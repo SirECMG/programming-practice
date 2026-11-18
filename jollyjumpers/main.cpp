@@ -160,8 +160,6 @@ int main() {
         int first;
         std::cin >> first;
 
-        if(n == 1 && first != 1) is_jolly = 0;
-
         int i = 1;
         while(i < n) {
 
