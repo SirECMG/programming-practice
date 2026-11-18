@@ -210,4 +210,9 @@ int main() {
  *  and even made improvements to my code)
  *
  *  i need to celebrate this improvement!
+ *
+ *
+ *  note:
+ *
+ *  i can change vector<int> to vector<bool> for a big space saving improvement.
  * */
