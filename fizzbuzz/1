@@ -1,0 +1,98 @@
+/*
+ * fizzbuzz
+ *
+ * fizzbuzz is a groupo word game for children to teach them about
+ * division.
+ *
+ * used to screen young computer science graduates during programming
+ * interviews.
+ *
+ * basically, this is how it works: you print integers
+ * from 1 to N, replacing any of them divisible by X with Fizz
+ * or if they are divisible by Y, Buzz.
+ *
+ * If the nubmer is divisible by both X and Y, you print FizzBuzz instead.
+ *
+ * input:
+ *
+ * if input contains a single test case.
+ * each test case contains three integers
+ * X, Y, N
+ *
+ * 1 <= X < Y <= N <= 100).
+ *
+ *
+ * Output:
+ *
+ * 2 3 7
+ *
+ * Sample Output 1:
+ *
+ * 1 to N.
+ * divisible by both X and Y FizzBuzz
+ * divisible by X Fizz
+ * divisible by Y Buzz
+ *
+ * constraint 100
+ *
+ * *
+ * int cur = 1
+ *
+ * while cur <= n || cur == 100
+ * int remainder = cur % (X + Y);
+ * if remainder == 0
+ *  print fizzbuzz
+ * 
+ * remainder =  cur % x;
+ * if remainder == 0 
+ *  prin fizz
+ *
+ * remainder = cur % y;
+ * if reaminder == 0
+ *  prin buzz
+ *
+ * cur += 1
+ * */
+
+
+/*
+ *  capture x
+ *  capture y
+ *  capture n
+ * */
+
+#include <iostream>
+
+
+int main() {
+
+    int x,y,n;
+    std::cin >> x, y, n;
+
+    int cur = 1;
+    int remainder;
+    while (cur <= n || cur == 100) {
+        remainder = cur % (x + y);
+        if (remainder != 0) {
+            remainder = cur % x;
+            if (remainder != 0) {
+                remainder = cur % y;
+                    if(remainder != 0) {
+                        std:: cout << cur << "\n";
+                    } else {
+                        std:: cout << "Buzz\n";
+                    }
+            } else {
+                std::cout << "Fizz\n";
+            }
+        } else {
+            std::cout << "FizzBuzz" << "\n";
+        }
+        cur += 1;
+    }
+    std::cout << "did not go in\n";
+
+
+
+    return 0;
+}
