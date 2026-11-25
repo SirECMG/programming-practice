@@ -1,0 +1,23 @@
+-module(mybase64).
+
+%% API exports
+-export([main/1]).
+
+%%====================================================================
+%% API functions
+%%====================================================================
+
+%% escript Entry point
+main(Args) ->
+
+    Input = "72bca9b68fc16ac7beeb8f849dca1d8a783e8acf9679bf9269f7bf",
+
+    % we convert hex string to binary to base64
+    Output = base64:encode(binary:decode_hex(list_to_binary(Input))),
+
+    io:format("Args: ~p~n", [Output]),
+    erlang:halt(0).
+
+%%====================================================================
+%% Internal functions
+%%====================================================================
